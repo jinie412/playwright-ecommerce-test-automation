@@ -15,7 +15,7 @@ test.only("Browser Context Playwright test", async ({ browser }) => {
   await userName.fill("learning");
   await password.fill("learning");
   await signIn.click();
-  
+
   const message = await page.locator("[style*='block']");
   await expect(message).toContainText("Incorrect");
 
@@ -31,11 +31,22 @@ test.only("Browser Context Playwright test", async ({ browser }) => {
   console.log(allTitles);
 });
 
-test("Page Context Playwright test", async ({ page }) => {
-  await page.goto("https://google.com");
+test("UI Controls", async ({ page }) => {
+  await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
 
-  // get title
-  const title = await page.title();
+  const userName = page.locator("#username");
+  const password = page.locator("[type='password']");
+  const signIn = page.locator("#signInBtn");
+  const dropdown = page.locator("select.form-control");
 
-  await expect(page).toHaveTitle("Google");
+  await userName.fill("rahulshettyacademy");
+  await password.fill("Learning@830$3mK2");
+  await dropdown.selectOption("teach");
+
+  await page.locator(".radiotextsty").last().click();
+  await page.locator("#okayBtn").click();
+
+  
+
+  await signIn.click();
 });
