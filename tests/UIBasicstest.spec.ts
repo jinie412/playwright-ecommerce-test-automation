@@ -38,6 +38,9 @@ test("UI Controls", async ({ page }) => {
   const password = page.locator("[type='password']");
   const signIn = page.locator("#signInBtn");
   const dropdown = page.locator("select.form-control");
+  const terms = page.locator("#terms");
+  const documentLink1 = page.locator("[href*='documents-request']");
+  const documentLink2 = page.locator("[href*='-job-ready']");
 
   await userName.fill("rahulshettyacademy");
   await password.fill("Learning@830$3mK2");
@@ -47,6 +50,13 @@ test("UI Controls", async ({ page }) => {
   await page.locator("#okayBtn").click();
 
   
+  await terms.click();
+
+  await expect(page.locator(".radiotextsty").last()).toBeChecked();
+  await expect(terms).toBeChecked();
+
+  await expect(documentLink1).toHaveAttribute("class", "blinkingText");
+  await expect(documentLink2).toHaveAttribute("class", "blinkingText");
 
   await signIn.click();
 });
