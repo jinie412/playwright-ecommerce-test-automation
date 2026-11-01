@@ -49,7 +49,6 @@ test("UI Controls", async ({ page }) => {
   await page.locator(".radiotextsty").last().click();
   await page.locator("#okayBtn").click();
 
-  
   await terms.click();
 
   await expect(page.locator(".radiotextsty").last()).toBeChecked();
@@ -59,4 +58,27 @@ test("UI Controls", async ({ page }) => {
   await expect(documentLink2).toHaveAttribute("class", "blinkingText");
 
   await signIn.click();
+});
+
+test("Child windows handling", async ({ browser }) => {
+  const context = await browser.newContext();
+  const page = await context.newPage();
+
+  await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+  const userName = page.locator("#username");
+
+  const documentLink1 = page.locator("[href*='documents-request']");
+
+  const [newPage] = await Promise.all([
+    context.waitForEvent("page"),
+    documentLink1.click(),
+  ]);
+
+  const text = await newPage.locator(".red").textContent();
+  const arrayText = text?.split("@");
+  const domain = arrayText?.[1]?.split(" ")[0];
+
+  await userName.fill(domain ?? "");
+
+  console.log(await userName.inputValue());
 });
