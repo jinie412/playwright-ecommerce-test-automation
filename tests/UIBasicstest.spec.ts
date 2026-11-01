@@ -7,13 +7,28 @@ test.only("Browser Context Playwright test", async ({ browser }) => {
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
 
   // css, xpath
-  await page.locator("#username").fill("rahulshettyacademy ");
-  await page.locator("[type='password']").fill("learning@830$3mK2");
-  await page.locator("#signInBtn").click();
+  const userName = page.locator("#username");
+  const password = page.locator("[type='password']");
+  const signIn = page.locator("#signInBtn");
 
   // wait until this locator show up on the page
+  await userName.fill("learning");
+  await password.fill("learning");
+  await signIn.click();
+  
   const message = await page.locator("[style*='block']");
   await expect(message).toContainText("Incorrect");
+
+  await userName.fill("");
+  await userName.fill("rahulshettyacademy");
+  await password.fill("Learning@830$3mK2");
+  await signIn.click();
+
+  const cardTitles = page.locator(".card-body a");
+  // console.log(await cardTitles.nth(0).textContent());
+
+  const allTitles = await cardTitles.allTextContents();
+  console.log(allTitles);
 });
 
 test("Page Context Playwright test", async ({ page }) => {
