@@ -23,6 +23,7 @@ const config = {
     browserName: "chromium",
 
     trace: "on-first-retry",
+    headless: false,
   },
 
   /* Configure projects for major browsers */
