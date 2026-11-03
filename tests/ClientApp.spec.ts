@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test.only("Browser Context Playwright test", async ({ browser, page }) => {
+test("Browser Context Playwright test", async ({ browser, page }) => {
   const productName = "ZARA COAT 3";
   const email = "khanhhan@gmail.com";
   const products = page.locator(".card-body");
