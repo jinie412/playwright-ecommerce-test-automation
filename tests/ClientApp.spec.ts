@@ -7,9 +7,9 @@ test.only("Browser Context Playwright test", async ({ browser, page }) => {
 
   await page.goto("https://rahulshettyacademy.com/client");
 
-  const userEmail = await page.locator("#userEmail");
-  const userPassword = await page.locator("#userPassword");
-  const loginBtn = await page.locator("[value='Login']");
+  const userEmail = page.locator("#userEmail");
+  const userPassword = page.locator("#userPassword");
+  const loginBtn = page.locator("[value='Login']");
 
   await userEmail.fill("khanhhan@gmail.com");
   await userPassword.fill("Ha123456*");
@@ -80,4 +80,21 @@ test.only("Browser Context Playwright test", async ({ browser, page }) => {
     .textContent();
 
   console.log(orderId);
+
+  await page.locator('label:has-text("Orders History Page")').click();
+  await page.locator("tbody").waitFor();
+
+  const rows = page.locator("tbody tr");
+  const rowsCount = await rows.count();
+
+  for (let i = 0; i < rowsCount; i++) {
+    const text = (await rows.nth(i).locator("th").textContent()) ?? "";
+    if (orderId?.includes(text)) {
+      await rows.nth(i).locator("button").first().click();
+      break;
+    }
+  }
+  await page.locator(".col-text").waitFor();
+  const orderDetail = (await page.locator(".col-text").textContent()) ?? "";
+  expect(orderId?.includes(orderDetail)).toBeTruthy();
 });
